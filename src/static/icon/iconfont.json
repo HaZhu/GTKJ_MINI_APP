@@ -1,0 +1,51 @@
+{
+  "id": "5084910",
+  "name": "国泰科技",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "27154495",
+      "name": "司机头像",
+      "font_class": "sijitouxiang",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "3239721",
+      "name": "称重",
+      "font_class": "chengzhong",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "6049571",
+      "name": "个人中心",
+      "font_class": "gerenzhongxin",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "24108725",
+      "name": "uniE104",
+      "font_class": "uniE104",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "32190036",
+      "name": "磅单管理",
+      "font_class": "bangdanguanli",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "37137705",
+      "name": "接单记录",
+      "font_class": "jiedanjilu",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    }
+  ]
+}
