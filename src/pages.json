@@ -1,6 +1,12 @@
 {
 	"pages": [
 		{
+			"path": "pages/truckDriver/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/login/index",
 			"style": {
 				"navigationStyle": "custom"
@@ -26,9 +32,9 @@
 			}
 		},
 		{
-			"path": "pages/qiyerenzheng/index",
+			"path": "pages/xingshizheng/index",
 			"style": {
-				"navigationBarTitleText": "企业认证"
+				"navigationBarTitleText": "行驶证认证"
 			}
 		},
 		{
@@ -37,12 +43,7 @@
 				"navigationBarTitleText": "驾驶证认证"
 			}
 		},
-		{
-			"path": "pages/truckDriver/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
+		
 		{
 			"path": "pages/truckDriver/weightDetail/index",
 			"style": {

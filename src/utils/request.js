@@ -4,7 +4,7 @@ const baseUrl = "https://192.168.0.183:5008";
 import md5 from "md5";
 
 // 与 Web 端一致的签名参数（若需变更，请统一修改）
-const apiKey = "sbkjgfgvoutaikejiEJIfgfgf"; // 秘钥1
+const apiKey = "sbkjfgfguotaikejiEIJIfgfgf"; // 秘钥1
 const apiSecret = "2022sbkjguotaikejibDfgJINGsbkj"; // 秘钥2
 
 export default function request(options = { method: "GET", data : {}, contentType: "application/json" }) {
@@ -14,7 +14,6 @@ export default function request(options = { method: "GET", data : {}, contentTyp
 
   // 生成签名
   const timestamp = Date.now().toString();
-  const fullUrl = (options.baseUrl || baseUrl) + options.url;
   let dataparameter = "";
   if (data && Object.keys(data).length > 0) {
     try {
@@ -43,11 +42,10 @@ export default function request(options = { method: "GET", data : {}, contentTyp
       method: options.method.toUpperCase(),
       success: (res) => {
         const { statusCode, data } = res;
-
         // 未登录或登录过期
-        if (data.code === 501) {
+        if (statusCode === 501) {
           uni.showToast({
-            title: data.msg || "登录已过期，请重新登录",
+            title: data || "登录已过期，请重新登录",
             icon: "none",
             duration: 3000
           });
@@ -59,17 +57,17 @@ export default function request(options = { method: "GET", data : {}, contentTyp
         }
 
         // 业务错误 / HTTP 错误
-        if (statusCode !== 200 || (data.code && data.code !== 200)) {
+        if (statusCode !== 200) {
           setTimeout(() => {
             uni.showToast({
-              title: data.msg || "网络请求错误",
+              title: data || "网络请求错误",
               icon: "none",
               duration: 3000
             });
           }, 200);
         }
 
-        resolve(data);
+        resolve(res);
       },
       fail: (e) => {
         uni.showToast({

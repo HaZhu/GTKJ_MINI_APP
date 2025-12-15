@@ -91,10 +91,11 @@
 	    padding: 29rpx 0;
 	    background-color: #1e60ff;
 	    border-radius: 50rpx;
-		position: absolute;
+		position: fixed;
 		bottom: 60rpx;
 		left: 30rpx;
 		right: 30rpx;
+		z-index: 999;
 	    .text_8 {
 	      color: #ffffff;
 	    }

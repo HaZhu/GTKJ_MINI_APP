@@ -11,16 +11,16 @@
 	          class="image_6"
 	          src="/static/has.png"
 	        />
-	        <view class="section_33"></view>
+	        <view class="section_3"></view>
 	        <image
 	          class="image_6"
-	          src="/static/no.png"
+	          src="/static/has.png"
 	        />
 	      </view>
 	      <view class="flex-row justify-center relative mt-16">
 	        <text class="font pos_3">身份认证</text>
 	        <text class="font">驾驶证认证</text>
-	        <text class="font pos_4 text_32">行驶证认证</text>
+	        <text class="font pos_4">行驶证认证</text>
 	      </view>
 	    </view>
 	    <view class="flex-col section_4">

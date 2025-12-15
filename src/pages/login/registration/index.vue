@@ -19,7 +19,10 @@
 			<button :class="{active : !disableCodeBtn}" :disabled="disableCodeBtn" @tap="sendCode">{{codeBtn.text}}</button>
 		</view>
 		<view class="uni-form-item uni-column">
-			<input type="text" @input="maskPwd" class="uni-input" name="" placeholder="请输入密码" />
+			<input type="text" :password="true" v-model="password" class="uni-input" name="" placeholder="请输入密码" />
+		</view>
+		<view class="uni-form-item uni-column">
+			<input type="text" :password="true" v-model="repassword" class="uni-input" name="" placeholder="请再次输入密码" />
 		</view>
 		<button type="primary" @click="handleRegister">注册</button>
 		<view class="links">已有账号？<view class="link-highlight" @tap="gotoLogin">点此登陆</view></view>
@@ -40,6 +43,7 @@
 				phone: '',
 				code: '',
 				password: '',
+				repassword: '',
 				codeBtn: {
 					text: '获取验证码',
 					waitingCode: false,
@@ -55,8 +59,20 @@
 				this.rightCode = code
 			},
 			async handleRegister(){
-				if(this.phone.length < 11 || this.code.length < 6 || this.password.length < 6){
-					uni.showToast({ title: "请填写完整信息", icon: "error" });
+				if (!isValidMobile(this.phone)) {
+					uni.showToast({ title: "手机号格式错误", icon: "error" });
+					return;
+				}
+				if( this.code.length < 4){
+					uni.showToast({ title: "请输入4位验证码", icon: "error" });
+					return;
+				}
+				if( !this.password){
+					uni.showToast({ title: "请输入密码", icon: "error" });
+					return;
+				}
+				if(this.password !== this.repassword){
+					uni.showToast({ title: "两次输入的密码不一致", icon: "error" });
 					return;
 				}
 				const res = await AppRegisterForCode({
@@ -64,16 +80,20 @@
 					code: this.code,
 					password: this.password
 				})
+				if(res.statusCode !== 200) return 
+				uni.showToast({ title: "注册成功", icon: "success" });
+				uni.redirectTo({url: '/pages/login/index'});
 			},
 			async sendCode() {
 				if (!isValidMobile(this.phone)) {
 					uni.showToast({ title: "手机号格式错误", icon: "error" });
 					return;
 				}
+				const {data} = AppRegister({ userName: this.phone })
+				this.code = data
 				this.codeBtn.waitingCode = true;
 				this.codeBtn.count = this.seconds;
 				this.codeBtn.text = this.codeBtn.count + 's';
-				AppRegister({ mobile: this.phone })
 				let countdown = setInterval( () => {
 					this.codeBtn.count--;
 					this.codeBtn.text = this.codeBtn.count + 's';
@@ -86,14 +106,10 @@
 			},
 			gotoLogin() {
 				uni.navigateTo({
-					url: 'login'
+					url: '/pages/login/index'
 				})
 			},
-			maskPwd(e){
-				const len = (e && e.detail && typeof e.detail.value === 'string') ? e.detail.value.length : 0;
-				this.password = e.detail.value;
-				return '*'.repeat(len);
-			}
+
 		},
 		computed: {
 			disableCodeBtn (){
@@ -124,7 +140,7 @@
 		}
 		.title {
 			width: 100%;
-			margin: 80rpx 0 120rpx;
+			margin: 60rpx 0 100rpx;
 			color: #181f32;
 			font-size: 44rpx;
 			font-weight: 500;
@@ -171,6 +187,8 @@
 	.img-captcha{
 		width: 150upx;
 		height: 60upx;
+		margin-right: 10upx;
+		margin-bottom: 10upx;
 	}
 	button[type="primary"]{
 		background-color: $color-primary;

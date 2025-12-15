@@ -8,10 +8,10 @@
 		</view>
 	    <view class="title">国泰科技</view>
 		<view class="uni-form-item uni-column">
-			<input type="number" maxlength="11" class="uni-input" name="" placeholder="请输入手机号" />
+			<input type="number" maxlength="11"  v-model="phone"  class="uni-input" name="" placeholder="请输入手机号" />
 		</view>
 		<view class="uni-form-item uni-column">
-			<input type="text" @input="maskPwd" class="uni-input" name="" placeholder="请输入密码" />
+			<input type="text" :password="true" v-model="password" class="uni-input" name="" placeholder="请输入密码" />
 		</view>
 		<button type="primary" @click="goTrucker">登陆</button>
 		<view class="links"><view @tap="gotoForgetPassword">忘记密码？</view><view>|</view><view class="link-highlight" @tap="gotoRegistration">注册账号</view></view>
@@ -19,12 +19,14 @@
 </template>
 
 <script>
-	import { login } from '@/api/index';
+	import { Login } from '@/api/index';
 	import dayjs from 'dayjs';
+	import { isValidMobile } from '@/utils/index'
 	export default {
 		data() {
 			return {
-				
+				phone: '18250476269',
+				password: ''
 			}
 		},
 		onLoad() {
@@ -32,10 +34,25 @@
 		},
 		methods: {
 			async login(){
-				await login({
-					phone: '1233',
-					password: '1233'
+				if (!isValidMobile(this.phone)) {
+					uni.showToast({ title: "用户名错误", icon: "error" });
+					return;
+				}
+				if( !this.password){
+					uni.showToast({ title: "请输入密码", icon: "error" });
+					return;
+				}
+				const res = await Login({
+					userName: this.phone,
+					passWord: this.password
 				})
+				if(res.statusCode === 200){
+					const userInfo = JSON.stringify(res.data)
+					uni.setStorageSync('token', res.data.token)
+					uni.setStorageSync('userInfo', userInfo)
+					uni.showToast({ title: "登录成功", icon: "success" });
+					uni.navigateTo({url: '/pages/truckDriver/index'});
+				}
 			},
 			goTrucker(){
 				this.login()
@@ -47,10 +64,7 @@
 			gotoForgetPassword () {
 				uni.navigateTo({url: '/pages/login/forget-password/index'});
 			},
-			maskPwd(e){
-				const len = (e && e.detail && typeof e.detail.value === 'string') ? e.detail.value.length : 0;
-				return '*'.repeat(len);
-			}
+
 		}
 	}
 </script>
@@ -77,7 +91,7 @@
 		}
 		.title {
 			width: 100%;
-			margin: 80rpx 0 120rpx;
+			margin: 60rpx 0 100rpx;
 			color: #181f32;
 			font-size: 44rpx;
 			font-weight: 500;
