@@ -74,6 +74,11 @@ export default {
       default: 0,
     },
   },
+  watch: {
+    active(val) {
+      this.home = val;
+    },
+  },
   data() {
     return {
       home: 0,

@@ -25,7 +25,7 @@
 	export default {
 		data() {
 			return {
-				phone: '18250476269',
+				phone: '',
 				password: ''
 			}
 		},

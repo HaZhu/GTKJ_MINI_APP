@@ -13,7 +13,6 @@ export const GetOrderGrabbingList = (data) =>
 export const ImportDrivingLicense = (data) =>
   request({
     url: `/api/Users/ImportDrivingLicense`,
-    baseUrl,
     method: 'POST',
     data
   });
@@ -22,7 +21,6 @@ export const ImportDrivingLicense = (data) =>
 export const ImportVehicleLicense = (data) =>
   request({
     url: `/api/Users/ImportVehicleLicense`,
-    baseUrl,
     method: 'POST',
     data
   });
@@ -30,7 +28,13 @@ export const ImportVehicleLicense = (data) =>
 export const ImportIdentityCard = (data) =>
   request({
     url: `/api/Users/ImportIdentityCard`,
-    baseUrl,
+    method: 'POST',
+    data
+  });
+// 身份证识别
+export const UpdateForMobile = (data) =>
+  request({
+    url: `/api/Users/UpdateForMobile`,
     method: 'POST',
     data
   });

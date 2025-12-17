@@ -194,18 +194,19 @@ export default {
   onLoad(query) {
     const sys = uni.getSystemInfoSync && uni.getSystemInfoSync();
     this.statusBarHeight = sys && sys.statusBarHeight ? sys.statusBarHeight : 0;
+  },
+  onShow() {
+    const pages = getCurrentPages()
+    const current = pages[pages.length - 1]
+    const query = current.options
     const map = { home: 0, records: 1, weight: 2, bill: 3, profile: 4 };
     if (query && query.tab && query.tab in map) this.active = map[query.tab];
+    console.log(this.active)
     if(this.active === 0) this.getAutoOrderSettingList();
     const userInfo = uni.getStorageSync('userInfo');
     if(userInfo){
       let _userinfo = JSON.parse(userInfo);
       this.carNumber = _userinfo.carNumber;
-      GetDriverMsg({
-        Tel: _userinfo.drivertel
-      }).then(res => {
-         console.log(res)
-      })
     }
   },
   methods: {

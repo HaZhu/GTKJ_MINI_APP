@@ -1,6 +1,6 @@
 // request.js
 
-const baseUrl = "https://192.168.0.183:5008";
+const baseUrl = "http://192.168.0.183:8001/GT";
 import md5 from "md5";
 
 // 与 Web 端一致的签名参数（若需变更，请统一修改）

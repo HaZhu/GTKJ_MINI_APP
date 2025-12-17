@@ -18,22 +18,22 @@
     <view class="flex-col section_4" v-show="step == 1">
       <view class="flex-row justify-between group_3">
         <view class="font_2">联系人姓名</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.name" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_4">
         <view class="font_2">联系人身份证号</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.idNumber" placeholder="上传图片自动识别" />
       </view>
     </view>
 
     <view class="flex-col section_4" v-show="step == 2">
       <view class="flex-row justify-between group_3">
         <view class="font_2">驾驶证号</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.licenseNumber" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_4">
         <view class="font_2">驾驶证有效期至</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.validPeriod" placeholder="上传图片自动识别" />
       </view>
     </view>
 
@@ -55,7 +55,7 @@
             class="flex-col justify-start items-center self-stretch section_6"
           >
             <view class="flex-col justify-start section_7">
-              <view class="flex-row section_8 view" @tap="chooseFront">
+              <view class="flex-row section_8 view" @tap="chooseFront(1)">
                 <template v-if="idFront">
                   <image class="preview" :src="idFront" mode="aspectFill" />
                 </template>
@@ -74,7 +74,7 @@
             class="flex-col justify-start items-center self-stretch section_6"
           >
             <view class="flex-col justify-start section_7">
-              <view class="flex-row section_8 view_2" @tap="chooseBack">
+              <view class="flex-row section_8 view_2" @tap="chooseFront(2)">
                 <template v-if="idBack">
                   <image class="preview" :src="idBack" mode="aspectFill" />
                 </template>
@@ -108,9 +108,9 @@
             class="flex-col justify-start items-center self-stretch section_6"
           >
             <view class="flex-col justify-start section_7">
-              <view class="flex-row section_8 view" @tap="chooseFront">
-                <template v-if="idFront">
-                  <image class="preview" :src="idFront" mode="aspectFill" />
+              <view class="flex-row section_8 view" @tap="chooseFront(3)">
+                <template v-if="idDriverFront">
+                  <image class="preview" :src="idDriverFront" mode="aspectFill" />
                 </template>
                 <template v-else>
                   <image class="image_8 ml-3" src="/static/sf_2.png" />
@@ -138,9 +138,9 @@
             class="flex-col justify-start items-center self-stretch section_6"
           >
             <view class="flex-col justify-start section_7">
-              <view class="flex-row section_8 view" @tap="chooseFront">
-                <template v-if="idFront">
-                  <image class="preview" :src="idFront" mode="aspectFill" />
+              <view class="flex-row section_8 view" @tap="chooseFront(4)">
+                <template v-if="idVehicleFront">
+                  <image class="preview" :src="idVehicleFront" mode="aspectFill" />
                 </template>
                 <template v-else>
                   <image class="image_8 ml-3" src="/static/sf_2.png" />
@@ -155,9 +155,9 @@
             class="flex-col justify-start items-center self-stretch section_6"
           >
             <view class="flex-col justify-start section_7">
-              <view class="flex-row section_8 view_2" @tap="chooseBack">
-                <template v-if="idBack">
-                  <image class="preview" :src="idBack" mode="aspectFill" />
+              <view class="flex-row section_8 view_2" @tap="chooseFront(5)">
+                <template v-if="idVehicleBack">
+                  <image class="preview" :src="idVehicleBack" mode="aspectFill" />
                 </template>
                 <template v-else>
                   <image class="image_8 image_10" src="/static/sf_2.png" />
@@ -173,31 +173,31 @@
     <view class="flex-col section_4" v-show="step == 3">
       <view class="flex-row justify-between group_3">
         <view class="font_2">车牌号</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.licensePlateNumber" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_3">
         <view class="font_2">车型</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.vehicleType" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_3">
         <view class="font_2">总质量(kg)</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.totalWeight" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_3">
         <view class="font_2">核定载重(kg)</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.permittedWeight" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_3">
         <view class="font_2">长(mm)</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.length" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_3">
         <view class="font_2">宽(mm)</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.width" placeholder="上传图片自动识别" />
       </view>
       <view class="flex-row justify-between group_3">
         <view class="font_2">高(mm)</view>
-        <input class="font_2 text_3" placeholder="上传图片自动识别" />
+        <input class="font_2 text_3" v-model="form.height" placeholder="上传图片自动识别" />
       </view>
     </view>
 	<view v-if="step === 1" class="flex-col justify-start items-center">
@@ -222,7 +222,7 @@
         ><text class="font_3 text_8">上一步</text></view
       >
 	  <view class="flex-col justify-start items-center btn_block"
-        @click="nextPage"
+        @click="submit"
         ><text class="font_3 text_8">完成</text></view
       >
     </view>
@@ -230,7 +230,7 @@
 </template>
 
 <script>
-import {ImportDrivingLicense,ImportVehicleLicense,ImportIdentityCard} from '@/api/truckDriver'
+import {ImportDrivingLicense,ImportVehicleLicense,ImportIdentityCard,UpdateForMobile} from '@/api/truckDriver'
 export default {
   components: {},
   props: {},
@@ -239,31 +239,161 @@ export default {
       step: 1,
       idFront: "",
       idBack: "",
+      idDriverFront: "",
+      idVehicleFront: "",
+      idVehicleBack: "",
+
+      form:{
+        showname: "",
+        licenseno: "",
+        idcarddate: "",
+
+        name: "",
+        sex: "",
+        idNumber: "",
+        address: "",
+        idCardPeriod: "",
+        licenseNumber: "",
+        validPeriod: "",
+        licensePlateNumber: "",
+        vehicleType: "",
+        totalWeight: "",
+        permittedWeight: "",
+        length: "",
+        width: "",
+        height: "",
+        idcardstatus: 0,
+        validstatus: 0,
+        drivingstatus: 0
+      }
     };
   },
-
+  onLoad(options) {
+    if(options.status){
+      this.form.idcardstatus = options.status || 0
+      this.form.validstatus = options.status || 0
+      this.form.drivingstatus = options.status || 0
+    }
+  },
   methods: {
     nextPage() {
+      if(this.step === 0 && this.idFront && this.idBack && this.form.idNumber && this.form.name){
+        if(this.form.idNumber.length < 18){
+          uni.showToast({ title: '身份证号长度错误', icon: 'none' })
+          return
+        }
+        this.step++
+      }else{
+        uni.showToast({ title: '请完善身份信息', icon: 'none' })
+      }
+      if(this.step === 1 && this.idDriverFront && this.form.licenseNumber && this.form.validPeriod){
+        if(this.form.licenseNumber.length < 17){
+          uni.showToast({ title: '驾驶证号长度错误', icon: 'none' })
+          return
+        }
+        if(!this.form.idNumber.includes(this.form.licenseNumber)){
+          uni.showToast({ title: '驾驶证号与身份证号不匹配', icon: 'none' })
+          return
+        }
+        this.step++
+      }else{
+        uni.showToast({ title: '请完善驾驶证信息', icon: 'none' })
+      }
+      if(this.step === 2 && this.idVehicleFront && this.idVehicleBack && this.form.licensePlateNumber && this.form.vehicleType && this.form.totalWeight && this.form.permittedWeight && this.form.length && this.form.width && this.form.height){
+        this.submit()
+      }else{
+        uni.showToast({ title: '请完善车辆信息', icon: 'none' })
+      }
+    },
+    chooseFront(type) {
+      uni.chooseImage({
+        count: 1,
+        sizeType: ["compressed"],
+        sourceType: ["album", "camera"],
+        success: (res) => {
+          const path = res.tempFilePaths && res.tempFilePaths[0];
+          const fs = uni.getFileSystemManager();
+          fs.readFile({
+            filePath: path,
+            encoding: "base64",
+            success: (r) => {
+          const usreInfo =  uni.getStorageSync('userInfo');
+          if(usreInfo){
+          let _userinfo = JSON.parse(usreInfo);
+          switch(type){
+            case 1: 
+              			this.idFront =  "data:image/png;base64," +  r.data;
+						ImportIdentityCard({
+							id: _userinfo.id,
+							base64str: r.data,
+							type: 0
+						}).then(res => {
+              this.form.address = res.data.address;
+              this.form.idNumber = res.data.idNumber;
+              this.form.name = res.data.name;
+              this.form.sex = res.data.sex;
+						})
+						break;
+					case 2: 
+            this.idBack =  "data:image/png;base64," +  r.data;
+						ImportIdentityCard({
+							id: _userinfo.id,
+							base64str: r.data,
+							type: 1
+						}).then(res => {
+              this.form.idCardPeriod = res.data.idCardPeriod;
+						})
+						break;
+					case 3: 
+            this.idDriverFront =  "data:image/png;base64," +  r.data;
+						ImportDrivingLicense({
+							id: _userinfo.id,
+							base64str: r.data,
+							type: 0
+						}).then(res => {
+              this.form.licenseNumber = res.data.licenseNumber;
+              this.form.validPeriod = res.data.validPeriod;
+              // licenseNumber: "44190019900530"
+              // validPeriod: "2015-01-12至2021-01-12"
+						})
+						break;
+					case 4: 
+            this.idVehicleFront =  "data:image/png;base64," +  r.data;
+						ImportVehicleLicense({
+							id: _userinfo.id,
+							base64str: r.data,
+							type: 0
+						}).then(res => {
+              this.form.licensePlateNumber = res.data.licensePlateNumber;
+              this.form.vehicleType = res.data.vehicleType;
+							// licensePlateNumber: "宁A03539D"
+              // vehicleType: "重型半挂牵引车"
+						})
+						break;
+					case 5: 
+              			this.idVehicleBack =  "data:image/png;base64," +  r.data;
+						ImportVehicleLicense({
+							id: _userinfo.id,
+							base64str: r.data,
+							type: 1
+						}).then(res => {
+              this.form.height = res.data.height;
+              this.form.length = res.data.length;
+              this.form.permittedWeight = res.data.permittedWeight;
+              this.form.totalWeight = res.data.totalWeight;
+              this.form.width = res.data.width;
+							// height: "3100"
+              // length: "7115"
+              // permittedWeight: "38900"
+              // totalWeight: "9970"
+              // width: "2545"
+						})
+						break;
 
-		this.step++
-    },
-    chooseFront() {
-      uni.chooseImage({
-        count: 1,
-        sizeType: ["compressed"],
-        sourceType: ["album", "camera"],
-        success: (res) => {
-          const path = res.tempFilePaths && res.tempFilePaths[0];
-          const fs = uni.getFileSystemManager();
-          fs.readFile({
-            filePath: path,
-            encoding: "base64",
-            success: (r) => {
-              this.idFront = "data:image/png;base64," + r.data;
-			  ImportIdentityCard({
-				base64str: this.idFront,
-				type: 0
-			  })
+				}
+				
+			  }
+			
             },
             fail: (err) => {
               console.error("readFile fail", err);
@@ -272,27 +402,46 @@ export default {
         },
       });
     },
-    chooseBack() {
-      uni.chooseImage({
-        count: 1,
-        sizeType: ["compressed"],
-        sourceType: ["album", "camera"],
-        success: (res) => {
-          const path = res.tempFilePaths && res.tempFilePaths[0];
-          const fs = uni.getFileSystemManager();
-          fs.readFile({
-            filePath: path,
-            encoding: "base64",
-            success: (r) => {
-              this.idFront = "data:image/png;base64," + r.data;
-            },
-            fail: (err) => {
-              console.error("readFile fail", err);
-            },
-          });
-        },
-      });
-    },
+    async submit(){
+      const usreInfo = uni.getStorageSync('userInfo');
+      const _userinfo = JSON.parse(usreInfo);
+      if(usreInfo){
+        this.form.id = _userinfo.id || 0;
+        this.form.showname = _userinfo.showname || '';
+        this.form.licenseno = _userinfo.licenseno || '';
+        const res = await UpdateForMobile({
+            id: _userinfo.id,
+            showname: this.form.showname,
+            licenseno: this.form.licenseno,
+            licenseNumber: this.form.licenseNumber,
+            validPeriod: this.form.validPeriod,
+            name: this.form.name,
+            sex: this.form.sex,
+            idNumber: this.form.idNumber,
+            address: this.form.address,
+            idCardPeriod: this.form.idCardPeriod,
+            licensePlateNumber: this.form.licensePlateNumber,
+            vehicleType: this.form.vehicleType,
+            totalWeight: this.form.totalWeight,
+            permittedWeight: this.form.permittedWeight,
+            length: this.form.length,
+            width: this.form.width,
+            height: this.form.height,
+            idcardstatus: this.form.idcardstatus,
+            validstatus: this.form.validstatus,
+            drivingstatus: this.form.drivingstatus,
+            idcarddate: this.form.idcarddate
+          }).then((res) => {
+            if(res.statusCode == 200){
+              uni.showToast({ title: '提交成功', icon: 'success' })
+              setTimeout(() => {
+                uni.navigateBack({ delta: 1 })
+              }, 800)
+            }
+        })
+      }
+
+    }
   },
 };
 </script>

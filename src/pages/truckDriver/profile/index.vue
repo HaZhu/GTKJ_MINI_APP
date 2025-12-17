@@ -15,7 +15,7 @@
       <uni-list-item thumbSize="sm"   title="车型认证" showArrow clickable @click="toVehicleAuth"></uni-list-item>
       <uni-list-item thumbSize="sm" title="设置密码" showArrow clickable @click="toSetPassword"></uni-list-item>
       <uni-list-item thumbSize="sm" title="过磅说明" showArrow clickable @click="toWeighInstructions"></uni-list-item>
-      <uni-list-item thumbSize="sm"  title="退出登录" showArrow></uni-list-item>
+      <uni-list-item thumbSize="sm"  title="退出登录" showArrow @click="unLogin"></uni-list-item>
     </uni-list>
   </view>
 </template>
@@ -30,7 +30,6 @@ export default {
   },
   mounted() {
     const usreInfo =  uni.getStorageSync('userInfo');
-    console.log()
     if(usreInfo){
       let _userinfo = JSON.parse(usreInfo);
       this.userInfo = _userinfo;
@@ -38,18 +37,29 @@ export default {
   },
   methods: {
     toVehicleAuth(){
-       uni.navigateTo({
+      if(this.userInfo.auditstatus === 0){
+        uni.navigateTo({
           url: '/pages/shengfenrenzheng/index'
         })
-      // if(this.userInfo.auditstatus === 0){
-      //   uni.navigateTo({
-      //     url: '/pages/shengfenrenzheng/index'
-      //   })
-      //   return
-      // }
-      // uni.navigateTo({
-      //   url: '/pages/truckDriver/vehicleAuth/index'
-      // })
+        return
+      }
+      if(this.userInfo.auditstatus === 1){
+				uni.showToast({ title: '车辆认证中，请耐心等待审核', icon: "none" });
+        return
+      }
+      if(this.userInfo.auditstatus === 2){
+				uni.navigateTo({
+          url: '/pages/truckDriver/vehicleAuth/index'
+        })
+        return
+      }
+       if(this.userInfo.auditstatus === 3){
+				uni.navigateTo({
+          url: '/pages/shengfenrenzheng/index?status=3'
+        })
+        return
+      }
+     
     },
     toWeighInstructions(){
       uni.navigateTo({
@@ -60,6 +70,12 @@ export default {
       uni.navigateTo({
         url: '/pages/truckDriver/setPassword/index'
       })
+    },
+    unLogin() {
+      uni.removeStorageSync('userInfo');
+      uni.reLaunch({
+        url: '/pages/login/index'
+      });
     }
   },
 };

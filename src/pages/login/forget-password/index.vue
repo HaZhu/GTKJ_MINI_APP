@@ -69,11 +69,14 @@
 					uni.showToast({ title: "手机号格式错误", icon: "error" });
 					return;
 				}
+				const {data, statusCode} = await SendCode({ userName: this.phone })
+				if(statusCode !== 200){
+					return
+				} 
 				this.codeBtn.waitingCode = true;
 				this.codeBtn.count = this.seconds;
 				this.codeBtn.text = this.codeBtn.count + 's';
-				const {data} = SendCode({ userName: this.phone })
-				this.code = data
+				// this.code = data
 				let countdown = setInterval( () => {
 					this.codeBtn.count--;
 					this.codeBtn.text = this.codeBtn.count + 's';
@@ -101,19 +104,23 @@
 					uni.showToast({ title: "两次输入的密码不一致", icon: "error" });
 					return;
 				}
-				await ChangePasswordForCode({
+				const res = await ChangePasswordForCode({
 					"userName": this.phone,
 					"newPassWord": this.password,
 					"code": this.code
 				})
 				if(res.statusCode !== 200) return 
 				uni.showToast({ title: "密码修改成功", icon: "success" });
-				uni.redirectTo({
-					url: '/pages/login/index'
-				})
+				setTimeout(() => {
+					uni.redirectTo({
+						url: '/pages/login/index'
+					})
+				}, 2000)
 			},
 			gotoLogin () {
-				
+				uni.redirectTo({
+						url: '/pages/login/index'
+				})
 			},
 
 		},

@@ -82,15 +82,22 @@
 				})
 				if(res.statusCode !== 200) return 
 				uni.showToast({ title: "注册成功", icon: "success" });
-				uni.redirectTo({url: '/pages/login/index'});
+				setTimeout(() => {
+					uni.redirectTo({url: '/pages/login/index'});
+				}, 2000)
+				
 			},
 			async sendCode() {
 				if (!isValidMobile(this.phone)) {
 					uni.showToast({ title: "手机号格式错误", icon: "error" });
 					return;
 				}
-				const {data} = AppRegister({ userName: this.phone })
-				this.code = data
+				const {data, statusCode} = await AppRegister({ userName: this.phone })
+				if(statusCode !== 200){
+					uni.showToast({ title: '手机号已被注册', icon: "error" });
+					return
+				} 
+				// this.code = data
 				this.codeBtn.waitingCode = true;
 				this.codeBtn.count = this.seconds;
 				this.codeBtn.text = this.codeBtn.count + 's';
